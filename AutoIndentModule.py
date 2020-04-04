@@ -1,7 +1,6 @@
 class AutoIndent:
     """
     ダンプファイルなどの文字列にインデントをつけるクラス
-
     Attributes
     ----------
     braces : int
@@ -10,22 +9,23 @@ class AutoIndent:
         （や｛などのぶろっくの開始文字
     indent_target_pair　：ｓｔｒ
         indent_targetとペアになる文字
+    line_feed_char
+        ;などのコードの改行の文字
     """
 
-    def __init__(self, it, pair):
+    def __init__(self, it, pair, lf):
         self.braces=0
         self.indent_target = it
         self.indent_target_pair = pair
+        self.line_feed_char = lf
 
     def indent(self, s):
         """
         bracesの数に応じて、indent_target_pairのまわりへのインデントをつける
-
         Parameters
         ----------
         s　: ｓｔｒ
             インデント対象の文字列
-
         Returns
         -------
         return_value : ｓｔｒ
@@ -57,15 +57,16 @@ class AutoIndent:
                 break
         return return_value
 
+    def new_line(self, string):
+        return '\n'.join(map(lambda x : x + self.line_feed_char, string.split(self.line_feed_char)))
+
     def add_indent(self, string):
         """
         文字列にインデントをつける
-
         Parameters
         ----------
         string　: ｓｔｒ
             インデント対象の文字列
-
         Returns
         -------
         return_value : ｓｔｒ
@@ -79,4 +80,4 @@ class AutoIndent:
         tmp_list = list(map(lambda x: x + self.indent_target + '\n', s_list[:-1])) + s_list[-1:]
         result_list = list(map(self.indent, tmp_list))
 
-        return return_value + ''.join(result_list)
+        return self.new_line(return_value + ''.join(result_list))
