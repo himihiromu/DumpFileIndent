@@ -58,6 +58,17 @@ class AutoIndent:
         return return_value
 
     def new_line(self, string):
+        """
+        文字列に自動で改行を行う
+        Parameters
+        ----------
+        string　: ｓｔｒ
+            改行対象の文字列
+        Returns
+        -------
+        return_value : ｓｔｒ
+            改行後の文字列
+        """
         return '\n'.join(map(lambda x : x + self.line_feed_char, string.split(self.line_feed_char)))
 
     def add_indent(self, string):
